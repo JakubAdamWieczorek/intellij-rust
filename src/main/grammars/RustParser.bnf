@@ -126,7 +126,7 @@ OuterAttr ::= '#'     '[' MetaItem ']' {
 }
 private OuterAttr_first ::= '#'
 
-MetaItem ::= identifier [ '=' LitExpr | MetaItemArgs ] {
+MetaItem ::= identifier [ '=' (LitExpr | PathIdentifier) | MetaItemArgs ] {
   implements = [ "org.rust.lang.core.psi.ext.RsReferenceElement" ]
   mixin = "org.rust.lang.core.psi.ext.RsMetaItemImplMixin"
   stubClass = "org.rust.lang.core.stubs.RsMetaItemStub"
@@ -144,6 +144,8 @@ MetaItemArgs ::= '(' [ <<comma_separated_list (MetaItem | LitExpr)>> ] ')' {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 private PathIdent ::= !("union" identifier) identifier | self | super | 'Self'
+
+PathIdentifier ::= PathIdent { elementType = Path }
 
 fake Path ::= (Path '::' | '::' | TypeQual)? PathIdent PathTypeArguments? {
   implements = [ "org.rust.lang.core.psi.ext.RsPathReferenceElement"
